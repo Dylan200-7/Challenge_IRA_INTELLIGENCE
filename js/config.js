@@ -1,7 +1,9 @@
 // Autor: QUISPE CHARRES MATHIAS DYLAN HENRY
-// Pega únicamente enlaces reales. Los campos vacíos abren una explicación.
+
 window.IRA_LINKS = {
-  github: '',
-  colabBfs: '',
-  colabModelo: ''
+  github: 'https://github.com/dylan200-7/IRA-INTELLIGENCE',
+
+  colabBfs: 'https://colab.research.google.com/drive/1J1M6N1k2tDGfgskAupz1Rbc5pt-r3fHn',
+
+  colabModelo: 'https://colab.research.google.com/drive/1RbeuBiPupfCMM-e1aTYJhkooohWaGBW6'
 };
