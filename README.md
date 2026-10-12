@@ -10,7 +10,7 @@
 **Autor:** **QUISPE CHARRES MATHIAS DYLAN HENRY**  
 **Carrera:** Ingeniería Informática | **Año:** 2026
 
-**[🌐 Abrir plataforma interactiva](https://dylan200-7.github.io/IRA-INTELLIGENCE/)**
+**[🌐 Abrir plataforma interactiva](https://dylan200-7.github.io/Challenge_IRA_INTELLIGENCE/)**
 
 </div>
 
