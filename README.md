@@ -1,76 +1,146 @@
+<div align="center">
+
 # IRA INTELLIGENCE
 
-**Autor: QUISPE CHARRES MATHIAS DYLAN HENRY**  
-**Proyecto individual.** Universidad Peruana Cayetano Heredia (UPCH).  
-Carrera: Ingeniería Informática. Curso: Machine Learning.  
-Docente: Yannick Patrick Carrasco Merma.  
-Challenge Individual — Pipeline de Machine Learning, caso B: Infecciones Respiratorias Agudas (IRA).
+### Pipeline de Machine Learning — Caso B: Infecciones Respiratorias Agudas
 
-## Abrir la plataforma
+**Universidad Peruana Cayetano Heredia (UPCH)**  
+**Curso:** Machine Learning  
+**Docente:** Yannick Patrick Carrasco Merma  
+**Autor:** **QUISPE CHARRES MATHIAS DYLAN HENRY**  
+**Carrera:** Ingeniería Informática | **Año:** 2026
 
-Abre `index.html` en un navegador moderno. La web no requiere instalación, compilación, backend, claves ni servicios de pago. Funciona también en GitHub Pages dentro de un subdirectorio de repositorio porque utiliza rutas relativas.
+**[🌐 Abrir plataforma interactiva](https://dylan200-7.github.io/IRA-INTELLIGENCE/)**
 
-La bienvenida dura 4.3 segundos, se puede omitir y se muestra una vez por sesión de pestaña. Con movimiento reducido se omite automáticamente. Para volver a verla, abre una nueva sesión o borra el almacenamiento de sesión del sitio. Los recursos descargables se encuentran en Documentación.
+</div>
 
-## Organización
+---
 
-```text
-index.html                 Entrada principal
-css/style.css              Diseño responsive, efectos y accesibilidad
-js/config.js               Enlaces reales de GitHub y Colab
-js/main.js                 Navegación, bienvenida, grafos y pipeline
-js/bfs.js                  Grafo, traza BFS y código Python equivalente
-js/charts.js               Mínimos cuadrados y gráficos SVG interactivos
-assets/favicon.svg         Icono local
-datos/ira_dataset.csv       Datos observados del enunciado
-notebooks/                 Dos notebooks reproducibles
-docs/documentacion.md      Metodología, limitaciones y referencias
-docs/espacio-estados.md     Grafo, operadores y restricciones
-docs/presentacion-caso.md   Guion para presentar los cuatro apartados
-.nojekyll                  Publicación de archivos estáticos
+## 1. Presentación del caso y problema — 5 puntos
+
+Este proyecto desarrolla el **caso B: Infecciones Respiratorias Agudas (IRA)**, tomando como referencia el problema presentado en el examen parcial. El caso se enfoca en episodios de IRA y neumonía infantil en menores de cinco años en el Perú. La vigilancia epidemiológica de estos problemas se describe en fuentes institucionales como CDC Perú [1].
+
+Según los valores incluidos en el material del caso:
+
+| Año | Episodios de IRA |
+|:---:|---:|
+| 2023 | 1 003 178 |
+| 2024 | 883 959 |
+| 2025 | 824 978 |
+
+El caso también menciona **113 muertes por neumonía en 2023** y **51 en 2025**. Esos valores se presentan como contexto; **no son la variable que se predice**. Las cifras provienen del **material del examen parcial** y no se han contrastado de manera independiente con una base estadística oficial.
+
+**Problema:** aunque los episodios han disminuido en el periodo mostrado, siguen siendo numerosos. Se necesita analizar la información y representar posibles caminos de intervención que ayuden a comprender el problema.
+
+**¿Por qué IA y Machine Learning?** La IA permite representar situaciones como estados y buscar rutas en un grafo. Machine Learning permite ajustar un modelo a datos históricos y obtener una estimación numérica. Ninguno de estos dos ejercicios demuestra que una intervención particular haya causado la disminución observada.
+
+[Ver presentación desarrollada](docs/presentacion-caso.md)
+
+## 2. Espacio de estados — 5 puntos
+
+El problema se modela con siete estados:
+
+| Estado | Descripción |
+|:---:|---|
+| E0 | Muchos casos de IRA y neumonía (estado inicial) |
+| E1 | Mayor vacunación |
+| E2 | Prevención en hogares |
+| E3 | Atención temprana |
+| E4 | Menos contagios y casos |
+| E5 | Menos complicaciones |
+| OBJETIVO | Reducir casos y muertes por IRA y neumonía infantil |
+
+**Representación visual:**
+
+```mermaid
+flowchart LR
+    E0["E0: Muchos casos"] --> E1["E1: Vacunación"]
+    E0 --> E2["E2: Prevención"]
+    E0 --> E3["E3: Atención temprana"]
+    E1 --> E4["E4: Menos casos"]
+    E2 --> E4
+    E3 --> E4
+    E4 --> E5["E5: Menos complicaciones"]
+    E5 --> O["OBJETIVO"]
 ```
 
-## Publicar gratuitamente en GitHub Pages
+**Operadores:** incrementar vacunación, promover medidas de prevención en hogares y facilitar la atención temprana.  
+**Restricciones:** disponibilidad de recursos, acceso a establecimientos de salud y cobertura de intervenciones.
 
-1. Inicia sesión en tu cuenta de GitHub y crea un repositorio público (por ejemplo, con el nombre que prefieras para este proyecto). No se ha creado ni publicado un repositorio desde esta entrega.
-2. En **Add file → Upload files**, carga **el contenido de esta carpeta**, incluidas sus subcarpetas. `index.html` debe quedar en la raíz del repositorio; evita subir el ZIP sin descomprimir o una carpeta contenedora adicional. Confirma los archivos con **Commit changes**. Para conservar archivos ocultos como `.nojekyll`, también puedes usar GitHub Desktop o Git.
-3. Abre **Settings → Pages**. En **Build and deployment**, elige **Deploy from a branch**.
-4. Selecciona la rama `main` y la carpeta **/(root)**. Guarda.
-5. Espera a que termine la publicación y abre el enlace que GitHub muestre en esa misma sección. No se incluye una URL inventada: depende de tu cuenta y repositorio.
-6. Revisa la web en una ventana nueva y en móvil. Las modificaciones que confirmes en la rama seleccionada se reflejarán en futuras publicaciones.
+El grafo es una **representación conceptual académica**: las transiciones no describen resultados clínicos garantizados.
 
-Guía oficial consultada: https://docs.github.com/en/pages/quickstart (12-oct-2026). El código es estático y no necesita un plan de pago; un repositorio público permite utilizar GitHub Pages en GitHub Free. Las condiciones y disponibilidad dependen de GitHub.
+[Ver explicación del espacio de estados](docs/espacio-estados.md)
 
-## Enlaces de Google Colab y GitHub
+## 3. Pipeline de razonamiento, búsqueda y resultados — 5 puntos
 
-1. Sube cada notebook a tu Google Drive o ábrelo con la opción de subir notebook de Colab.
-2. Ejecuta sus celdas. Si deseas que el docente pueda verlo, configura el acceso adecuado en **Compartir** y copia el enlace verdadero de cada notebook.
-3. Edita `js/config.js`: coloca el enlace de tu repositorio en `github`, el de BFS en `colabBfs` y el de regresión en `colabModelo`, entre las comillas correspondientes. Usa URLs HTTPS.
-4. Guarda y vuelve a subir ese archivo. Los botones abrirán los enlaces configurados.
+Se utiliza **búsqueda en anchura (BFS)** mediante un grafo y una cola `deque` de Python [2]. El flujo es:
 
-Mientras no haya enlaces, los botones muestran un diálogo explicativo con acceso a esta guía. Las descargas locales de notebooks, dataset y documentación sí están disponibles desde la entrega. No se simula la conexión con un repositorio ni con un notebook original no proporcionado.
+**Problema → Espacio de estados → Exploración → Búsqueda BFS → Resultado**.
 
-## Las cuatro actividades (5 puntos cada una)
+La ruta obtenida es:
 
-| Actividad | Ubicación | Evidencia |
-|---|---|---|
-| Presentación del caso y problema | El problema | Contexto, cifras, justificación y autor |
-| Espacio de estados | Espacio de estados | Siete nodos, ocho relaciones, operadores y restricciones |
-| Pipeline de razonamiento, búsqueda y resultados | AI reasoning engine + Resultados | BFS real, cola, visitados, pasos, ruta y código |
-| Pipeline de predicción y visualización | Predictive intelligence + Resultados | Datos, fit, predict, gráfico interactivo y alcance |
+```text
+E0 → E1 → E4 → E5 → OBJETIVO
+```
 
-## Reproducibilidad y límites
+Existen rutas de igual longitud pasando por E2 o E3. La ruta por E1 aparece primero por el orden de exploración, **no porque se haya demostrado que la vacunación sea la mejor intervención entre las tres**.
 
-Los notebooks de esta entrega fueron creados a partir del enunciado y del fragmento de regresión proporcionado; **no son copias cotejadas con notebooks originales**, porque no se adjuntaron. El grafo y su orden de vecinos respetan el enunciado. No se alteró ningún archivo original del estudiante.
+**[Abrir Notebook 01 en Google Colab](https://colab.research.google.com/drive/1J1M6N1k2tDGfgskAupz1Rbc5pt-r3fHn)**  
+[Descargar Notebook 01](notebooks/01_Razonamiento_Busqueda.ipynb)
 
-En el navegador, BFS se ejecuta realmente en JavaScript. La animación muestra el estado de la cola después de extraer un nodo y añadir sus vecinos aún no descubiertos. `visitados` son nodos ya extraídos; el conjunto `descubiertos` evita insertar E4 tres veces. Las implementaciones Python y JavaScript comparten ese comportamiento.
+## 4. Pipeline de predicción y visualización — 5 puntos
 
-El modelo Python usa `LinearRegression` de scikit-learn. La web calcula en JavaScript la misma recta de mínimos cuadrados para visualizarla: no ejecuta Python ni un entrenamiento remoto. Pendiente: −89,100 episodios/año. Predicción 2026: 725,838.333… (redondeada: 725,838).
+Se desarrolló una tarea de **regresión**, utilizando como entrada el año (`X`) y como variable objetivo los episodios de IRA (`y`). Los tres valores corresponden al material del caso y se usan para entrenar una **regresión lineal** con `scikit-learn` [3].
 
-Las cifras 2023–2025 y las muertes por neumonía proceden del enunciado, sin verificación independiente. No se atribuyen esos totales al CDC. Solo hay tres observaciones, no hay validación externa, prueba temporal ni variables explicativas adicionales. Los grafos de intervenciones son conceptuales y no prueban causalidad.
+El entrenamiento se realiza con:
 
-Fuentes, explicación completa y pruebas de aceptación: `docs/documentacion.md`. La fuente tipográfica web es opcional: si Google Fonts no está disponible, se utilizan las fuentes del sistema. No hay otras dependencias de red para las interacciones.
+```python
+modelo = LinearRegression()
+modelo.fit(X, y)
+```
 
-## Autoría visual
+Después se realiza la predicción:
 
-El nombre **QUISPE CHARRES MATHIAS DYLAN HENRY** aparece en la bienvenida (con salto de línea después de los apellidos), el dashboard, la presentación del caso, Project Developer, el footer, los metadatos, esta guía, los documentos y el encabezado de ambos notebooks. No se agregan otros integrantes.
+```python
+prediccion_2026 = modelo.predict([[2026]])[0]
+```
+
+**Resultado: aproximadamente 725 838 episodios para 2026.** El notebook incluye una gráfica de los datos del caso, la recta de regresión y el punto estimado para 2026.
+
+**Limitación:** el modelo se ajusta con **solo tres observaciones anuales** y no tiene un conjunto de prueba ni validación epidemiológica. La cifra de 2026 es una *estimación académica* y no una cantidad observada o un pronóstico validado.
+
+**[Abrir Notebook 02 en Google Colab](https://colab.research.google.com/drive/1RbeuBiPupfCMM-e1aTYJhkooohWaGBW6)**  
+[Descargar Notebook 02](notebooks/02_Modelo_Predictivo.ipynb)  
+[Ver datos usados (CSV)](datos/ira_dataset.csv)
+
+## Archivos del proyecto
+
+```text
+IRA-INTELLIGENCE/
+├── index.html                        # Página interactiva (GitHub Pages)
+├── css/                              # Estilos
+├── js/                               # Animaciones, BFS y gráficos
+├── assets/                           # Recursos visuales
+├── datos/ira_dataset.csv             # Datos del caso
+├── notebooks/
+│   ├── 01_Razonamiento_Busqueda.ipynb
+│   └── 02_Modelo_Predictivo.ipynb
+├── docs/
+│   ├── espacio-estados.md
+│   ├── presentacion-caso.md
+│   ├── documentacion.md
+│   └── verificacion.md
+└── README.md
+```
+
+La página de GitHub Pages está hecha con HTML, CSS y JavaScript. Los algoritmos académicos en Python se revisan en los notebooks de Google Colab. **La web no ejecuta Python ni un modelo remoto**; representa la búsqueda y reproduce la recta de ajuste en JavaScript.
+
+## Referencias (formato IEEE)
+
+[1] Centro Nacional de Epidemiología, Prevención y Control de Enfermedades, “Vigilancia de EDA/IRA/SGB (UTVEIS).” [En línea]. Disponible: https://www.dge.gob.pe/portalnuevo/vigilancia-epidemiologica/vigilancia-de-eda-ira-sgb-utveis/ .
+
+[2] Python Software Foundation, “collections — Container datatypes.” [En línea]. Disponible: https://docs.python.org/3/library/collections.html#collections.deque .
+
+[3] Scikit-learn Developers, “LinearRegression.” [En línea]. Disponible: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html .
+
+**Fuente de las cifras del proyecto:** material del examen parcial, caso B (proporcionado en clase). Las referencias externas sirven como documentación técnica y de contexto; no verifican automáticamente los valores del examen.
