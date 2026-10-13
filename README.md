@@ -64,7 +64,7 @@
 
 ## Descripción del proyecto
 
-**IRA Intelligence** es un proyecto académico individual desarrollado a partir del **Caso B: Infecciones Respiratorias Agudas (IRA)**, asignado en el examen parcial. Para los datos del problema se utiliza la **infografía proporcionada para el caso** [1]. Integra dos enfoques: la **representación y búsqueda de soluciones mediante IA** y el **análisis predictivo con regresión lineal**.
+**IRA Intelligence** es un proyecto académico individual desarrollado a partir del **Caso B: Infecciones Respiratorias Agudas (IRA)**. Su información de partida procede de la **infografía proporcionada para el caso** [1], basada en una noticia del Ministerio de Salud (MINSA) publicada el **23 de junio de 2025** [2]. Integra dos enfoques: la **representación y búsqueda de soluciones mediante IA** y el **análisis predictivo con regresión lineal**.
 
 El trabajo se desarrolla en **GitHub y Google Colab**, y cuenta con una [plataforma web interactiva](https://dylan200-7.github.io/Challenge_IRA_INTELLIGENCE/) para visualizar el problema, el espacio de estados, la búsqueda BFS y los resultados del modelo.
 
@@ -84,28 +84,54 @@ El trabajo se desarrolla en **GitHub y Google Colab**, y cuenta con una [platafo
 
 <br>
 
-Las **infecciones respiratorias agudas** representan un problema relevante de salud pública en el Perú. Este proyecto se centra en los episodios de IRA y la neumonía infantil en niños menores de cinco años, a partir de las cifras presentadas en la **infografía proporcionada para el Caso B** [1]. Como contexto general, el CDC Perú mantiene información sobre vigilancia epidemiológica de IRA [2].
+Las **infecciones respiratorias agudas (IRA)** representan un problema relevante de salud pública en el Perú. Este proyecto analiza los **episodios de IRA y las defunciones por neumonía en niños menores de cinco años** a partir de la infografía del Caso B [1], elaborada con información de la noticia oficial del Ministerio de Salud (MINSA) [2].
 
-### Datos extraídos de la infografía del Caso B
+### Datos observados en la infografía
 
 <div align="center">
 
-| Año | Episodios de IRA | Tipo de dato |
-|:---:|---:|:---:|
-| **2023** | **1 003 178** | Dato de la infografía [1] |
-| **2024** | **883 959** | Dato de la infografía [1] |
-| **2025** | **824 978** | Dato de la infografía [1] |
-| **2026** | **≈ 725 838** | **Predicción (no figura en la infografía)** |
+| Año | Episodios de IRA | Defunciones por neumonía |
+|:---:|---:|---:|
+| **2023** | **1 003 178** | **113** |
+| **2024** | **883 959** | **82** |
+| **2025** | **824 978** | **51** |
 
 </div>
 
-La información asociada al caso también recoge **113 muertes por neumonía en 2023** y **51 en 2025**. Estas cifras se presentan como contexto, **no se usan para entrenar la regresión** y deben cotejarse con la infografía original antes de la entrega [1].
+**Comparación reportada en la infografía:** los episodios de IRA en 2025 disminuyen aproximadamente **7 %** frente a 2024 y **18 %** frente a 2023 [1], [2]. Las defunciones por neumonía también presentan una reducción en esos mismos periodos comparados.
 
-**Problema identificado.** Aunque los episodios disminuyen en los tres años analizados, la cantidad de casos continúa siendo considerable. Resulta útil organizar los datos, estudiar su tendencia y representar conceptualmente posibles intervenciones.
+> **Importante sobre el periodo de observación:** las cifras **no son totales de años completos**. La nota del MINSA compara los mismos periodos de 2023, 2024 y 2025, con información de 2025 hasta la **semana epidemiológica 24 (15 de junio de 2025)** [2]. No deben presentarse como conteos anuales cerrados.
 
-**¿Por qué utilizar IA y Machine Learning?** La IA permite representar el problema mediante estados y explorar rutas; Machine Learning permite ajustar un modelo de regresión a los datos disponibles para generar una estimación numérica. Ninguno de estos ejercicios demuestra causalidad entre una intervención y la reducción de casos.
+### Actores y poblaciones involucradas
 
-> **Procedencia de los datos:** los valores de 2023–2025 utilizados en el CSV y en los notebooks se tomaron de la infografía proporcionada para el Caso B [1]. La cifra de 2026 es una **predicción calculada por el modelo**, no un dato de la infografía. No se ha realizado una validación independiente contra una serie estadística oficial equivalente.
+La infografía identifica al **Ministerio de Salud (MINSA)**, al **Centro Nacional de Epidemiología, Prevención y Control de Enfermedades (CDC Perú)** y a las **Direcciones y Gerencias Regionales de Salud**. Menciona como poblaciones de interés a los niños menores de cinco años, los adultos mayores y otros grupos vulnerables [1]. El modelo de este trabajo se limita a los **episodios de IRA en menores de cinco años**.
+
+### Intervenciones y recursos descritos
+
+Entre las medidas presentadas se encuentran la **vacunación contra neumococo e influenza**, el **lavado de manos**, el **uso de mascarilla ante síntomas**, la **ventilación de ambientes** y la **atención oportuna en centros de salud**. También se menciona la campaña preventiva **«Abrigamos vidas»** [1], [2].
+
+Como recursos disponibles se reportan **2 226 142 dosis de vacuna contra neumococo** y **8,2 millones de dosis contra influenza**, de las cuales **2,2 millones son pediátricas** y **6 millones corresponden a adultos**. Se mencionan además medicamentos, insumos y reservas de contingencia [1], [2]. **Estas cifras de disponibilidad no equivalen a dosis aplicadas ni a cobertura efectiva.**
+
+### Problema identificado y justificación de IA
+
+Aunque los episodios y las defunciones reportadas muestran una tendencia descendente, siguen siendo relevantes para la salud pública. Este proyecto plantea dos actividades académicas complementarias:
+
+- **Inteligencia Artificial y BFS:** representar acciones preventivas como un espacio conceptual de estados, operadores y restricciones, y buscar una ruta desde un estado inicial hasta un objetivo.
+- **Machine Learning y regresión lineal:** usar los **tres conteos comparables de episodios de IRA** para analizar la tendencia y realizar una estimación ilustrativa correspondiente a un **periodo comparable de 2026**.
+
+La infografía **no informa** la cobertura real de vacunación, la distribución regional de casos y defunciones, los costos de las intervenciones, el impacto individual de cada medida ni factores climáticos o socioeconómicos. Tampoco demuestra relaciones causales [1]. Por lo tanto, **BFS no decide qué política sanitaria es superior y la regresión no predice el efecto de vacunar ni permite establecer causalidad**.
+
+### Predicción obtenida con el modelo
+
+<div align="center">
+
+| Periodo estimado | Episodios de IRA | Procedencia |
+|:---|---:|:---|
+| **2026 (periodo comparable)** | **≈ 725 838** | **Cálculo de regresión lineal, no dato de la infografía** |
+
+</div>
+
+> **Fuente y alcance:** [1] es la infografía entregada en clase y [2] es la publicación del MINSA que sustenta sus cifras; la noticia se publicó el **23 de junio de 2025**, aunque el pie de la infografía indique «MINSA (2024)». El valor estimado para 2026 se obtiene del notebook, **no es una cifra oficial ni el pronóstico de todo el año 2026**.
 
 [Ver desarrollo completo del caso](./docs/presentacion-caso.md)
 
@@ -192,7 +218,7 @@ El espacio de estados es una **simplificación académica del problema**, no un 
 
 <br>
 
-Se utilizó **búsqueda en anchura (BFS)** sobre un grafo, implementada en Python con `deque`, para explorar rutas desde el estado inicial hasta el objetivo [3].
+Se utilizó **búsqueda en anchura (BFS)** sobre un grafo conceptual, implementada en Python con `deque`, para explorar rutas desde el estado inicial hasta el objetivo [4]. La representación se basa en las intervenciones descritas por la infografía [1], pero **las transiciones del grafo son una simplificación didáctica**, no efectos clínicos demostrados.
 
 ### Proceso de búsqueda
 
@@ -231,15 +257,15 @@ La primera ruta encontrada pasa por **E1 (mayor vacunación)** debido al orden d
 
 <br>
 
-Se eligió una **tarea de regresión** y el modelo **`LinearRegression` de scikit-learn** [4]. Su uso permite estudiar una tendencia lineal simple a partir de los tres registros anuales extraídos de la infografía [1].
+Se eligió una **tarea de regresión** y el modelo **`LinearRegression` de scikit-learn** [5]. Permite analizar una tendencia lineal simple utilizando **tres observaciones de periodos comparables** (2023, 2024 y 2025) extraídas de la infografía [1] y sustentadas en la noticia del MINSA [2].
 
 | Elemento | Descripción |
 |---|---|
-| **Entrada (`X`)** | Años: 2023, 2024 y 2025 (infografía) |
-| **Salida (`y`)** | Episodios de IRA por año (infografía) |
+| **Entrada (`X`)** | Años de observación: 2023, 2024 y 2025 |
+| **Salida (`y`)** | Episodios de IRA en el mismo periodo de cada año |
 | **Modelo** | Regresión lineal |
 | **Entrenamiento** | `modelo.fit(X, y)` |
-| **Predicción** | `modelo.predict([[2026]])` |
+| **Predicción** | `modelo.predict([[2026]])` (estimación académica para un periodo comparable) |
 | **Visualización** | Datos observados, recta de ajuste y valor estimado |
 
 ### Entrenamiento y predicción
@@ -254,13 +280,13 @@ prediccion = modelo.predict([[2026]])[0]
 
 <div align="center">
 
-### Resultado estimado para 2026
+### Resultado estimado para 2026 (periodo comparable)
 
 <img src="https://img.shields.io/badge/2026-725%20838%20episodios-AC91FF?style=for-the-badge&logo=python&logoColor=white" alt="Estimación 2026: 725838 episodios" />
 
 </div>
 
-Este valor es una **estimación académica**, no un dato de la infografía ni un registro real de 2026. El modelo se entrenó con **solo tres observaciones anuales**, sin separación de prueba ni validación epidemiológica; por ello, la cifra no debe interpretarse como un pronóstico clínico validado.
+Este valor es una **estimación académica**, no aparece en la infografía ni corresponde a un registro real de 2026. Dado que los tres datos se refieren a periodos comparables de cada año hasta aproximadamente la semana epidemiológica 24, **la cifra no debe presentarse como el total anual de 2026**. El modelo dispone de **solo tres observaciones**, no incluye variables explicativas sanitarias, no cuenta con validación fuera de muestra y **no representa un pronóstico epidemiológico validado**.
 
 <div align="center">
 
@@ -310,7 +336,7 @@ Los notebooks publicados en `notebooks/` son versiones mejoradas de los ejercici
 - Se mejoró la gráfica con marcas para 2023–2026, etiquetas legibles y un marcador diferenciado para la estimación de 2026.
 - Se agregó documentación sobre el significado y los límites de la predicción.
 
-**Resultado conservado:** aproximadamente **725 838 episodios de IRA para 2026**.
+**Resultado conservado:** aproximadamente **725 838 episodios de IRA para un periodo comparable de 2026**.
 
 ### Comparación de versiones
 
@@ -322,7 +348,7 @@ Los notebooks publicados en `notebooks/` son versiones mejoradas de los ejercici
 | Manejo de ausencia de ruta | No había una salida explicativa específica | Muestra un mensaje cuando no se encuentra una ruta |
 | Cálculos del modelo | Predicción intermedia sin uso | Se elimina esa operación |
 | Gráfico | Presentación básica de datos y recta | Etiquetas, marcas anuales y predicción diferenciada |
-| Resultado numérico | ≈ 725 838 episodios para 2026 | ≈ 725 838 episodios para 2026 |
+| Resultado numérico | ≈ 725 838 para 2026 (periodo comparable) | ≈ 725 838 para 2026 (periodo comparable) |
 
 **Conclusión:** las mejoras hacen más claro y fácil de revisar el desarrollo, y eliminan un cálculo redundante en el modelo predictivo. **No se afirma que el código sea más rápido**, ya que no se realizaron mediciones de rendimiento comparativas.
 
@@ -452,21 +478,23 @@ Challenge_IRA_INTELLIGENCE/
 
 Las referencias se presentan en **formato IEEE**:
 
-[1] Infografía sobre infecciones respiratorias agudas (Caso B), material visual proporcionado para el curso Machine Learning, Universidad Peruana Cayetano Heredia, 2026. [Material de clase; autor y título formal no especificados].
+[1] “Infecciones Respiratorias Agudas (IRA) y Neumonía en Menores de 5 Años en el Perú: Principales datos de la noticia y variables para su análisis con IA,” infografía proporcionada como material del Caso B, curso Machine Learning, Universidad Peruana Cayetano Heredia, 2026. [Material de clase, autor de la infografía no identificado].
 
-[2] Centro Nacional de Epidemiología, Prevención y Control de Enfermedades, “Vigilancia de EDA/IRA/SGB (UTVEIS)”. [En línea]. Disponible: https://www.dge.gob.pe/portalnuevo/vigilancia-epidemiologica/vigilancia-de-eda-ira-sgb-utveis/
+[2] Ministerio de Salud del Perú, “Episodios de infecciones respiratorias agudas y muertes por neumonía en menores de 5 años disminuyen,” *Plataforma Digital Única del Estado Peruano*, 23 jun. 2025. [En línea]. Disponible: https://www.gob.pe/institucion/minsa/noticias/1192975-episodios-de-infecciones-respiratorias-agudas-y-muertes-por-neumonia-en-menores-de-5-anos-disminuyen
 
-[3] Python Software Foundation, “collections — Container datatypes”. [En línea]. Disponible: https://docs.python.org/3/library/collections.html#collections.deque
+[3] Centro Nacional de Epidemiología, Prevención y Control de Enfermedades, “Vigilancia de EDA/IRA/SGB (UTVEIS)”. [En línea]. Disponible: https://www.dge.gob.pe/portalnuevo/vigilancia-epidemiologica/vigilancia-de-eda-ira-sgb-utveis/
 
-[4] Scikit-learn Developers, “LinearRegression”. [En línea]. Disponible: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
+[4] Python Software Foundation, “collections — Container datatypes”. [En línea]. Disponible: https://docs.python.org/3/library/collections.html#collections.deque
 
-**Sobre la fuente de datos:** [1] se utiliza como fuente primaria del caso y [2] como referencia institucional contextual. Las referencias [3] y [4] documentan las herramientas de Python. Ninguna de estas fuentes externas valida por sí sola las cifras transcritas de la infografía. La predicción para 2026 procede exclusivamente del modelo entrenado con los valores de 2023–2025.
+[5] Scikit-learn Developers, “LinearRegression”. [En línea]. Disponible: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
+
+**Nota de procedencia:** las cifras y medidas preventivas se presentan en [1] y pueden contrastarse con la noticia original [2], cuyo corte corresponde al **15 de junio de 2025 (SE 24)**. El pie de la infografía señala «MINSA (2024)», pero la **fecha de publicación verificable de la fuente enlazada es 2025**. [3] complementa el contexto de vigilancia epidemiológica; [4] y [5] documentan las herramientas de programación. La estimación de 2026 procede del modelo, no de MINSA.
 
 ---
 
 ## Resumen final
 
-IRA Intelligence integra **la búsqueda BFS** para representar posibles rutas dentro de un espacio de estados y **la regresión lineal** para estudiar una tendencia en los episodios de IRA presentados en el caso. Los resultados se pueden revisar en **Google Colab** y explorar visualmente desde **GitHub Pages**.
+IRA Intelligence integra **la búsqueda BFS** para representar posibles rutas dentro de un espacio de estados y **la regresión lineal** para estudiar una tendencia en los episodios de IRA registrados hasta un periodo comparable de cada año. La infografía y la noticia del MINSA permiten identificar los datos observados, las intervenciones reportadas y las variables que faltan para establecer relaciones causales. Los resultados pueden revisarse en **Google Colab** y explorarse visualmente desde **GitHub Pages**.
 
 <p align="center">
   <a href="https://dylan200-7.github.io/Challenge_IRA_INTELLIGENCE/">
