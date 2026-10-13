@@ -64,7 +64,7 @@
 
 ## Descripción del proyecto
 
-**IRA Intelligence** es un proyecto académico individual desarrollado a partir del **Caso B: Infecciones Respiratorias Agudas (IRA)** del examen parcial. Integra dos enfoques: la **representación y búsqueda de soluciones mediante IA** y el **análisis predictivo con regresión lineal**.
+**IRA Intelligence** es un proyecto académico individual desarrollado a partir del **Caso B: Infecciones Respiratorias Agudas (IRA)**, asignado en el examen parcial. Para los datos del problema se utiliza la **infografía proporcionada para el caso** [1]. Integra dos enfoques: la **representación y búsqueda de soluciones mediante IA** y el **análisis predictivo con regresión lineal**.
 
 El trabajo se desarrolla en **GitHub y Google Colab**, y cuenta con una [plataforma web interactiva](https://dylan200-7.github.io/Challenge_IRA_INTELLIGENCE/) para visualizar el problema, el espacio de estados, la búsqueda BFS y los resultados del modelo.
 
@@ -84,28 +84,28 @@ El trabajo se desarrolla en **GitHub y Google Colab**, y cuenta con una [platafo
 
 <br>
 
-Las **infecciones respiratorias agudas** representan un problema relevante de salud pública en el Perú. Este proyecto se centra en los episodios de IRA y la neumonía infantil en niños menores de cinco años, a partir de las cifras compartidas en el **material del examen parcial**. Como marco de contexto, el CDC Perú mantiene información sobre vigilancia epidemiológica de IRA [1].
+Las **infecciones respiratorias agudas** representan un problema relevante de salud pública en el Perú. Este proyecto se centra en los episodios de IRA y la neumonía infantil en niños menores de cinco años, a partir de las cifras presentadas en la **infografía proporcionada para el Caso B** [1]. Como contexto general, el CDC Perú mantiene información sobre vigilancia epidemiológica de IRA [2].
 
-### Datos del caso
+### Datos extraídos de la infografía del Caso B
 
 <div align="center">
 
 | Año | Episodios de IRA | Tipo de dato |
 |:---:|---:|:---:|
-| **2023** | **1 003 178** | Dato del examen |
-| **2024** | **883 959** | Dato del examen |
-| **2025** | **824 978** | Dato del examen |
-| **2026** | **≈ 725 838** | **Estimación del modelo** |
+| **2023** | **1 003 178** | Dato de la infografía [1] |
+| **2024** | **883 959** | Dato de la infografía [1] |
+| **2025** | **824 978** | Dato de la infografía [1] |
+| **2026** | **≈ 725 838** | **Predicción (no figura en la infografía)** |
 
 </div>
 
-El material del caso también indica **113 muertes por neumonía en 2023** y **51 en 2025**. Estas cifras se utilizan únicamente como contexto y **no forman parte del entrenamiento de la regresión**.
+La información asociada al caso también recoge **113 muertes por neumonía en 2023** y **51 en 2025**. Estas cifras se presentan como contexto, **no se usan para entrenar la regresión** y deben cotejarse con la infografía original antes de la entrega [1].
 
 **Problema identificado.** Aunque los episodios disminuyen en los tres años analizados, la cantidad de casos continúa siendo considerable. Resulta útil organizar los datos, estudiar su tendencia y representar conceptualmente posibles intervenciones.
 
 **¿Por qué utilizar IA y Machine Learning?** La IA permite representar el problema mediante estados y explorar rutas; Machine Learning permite ajustar un modelo de regresión a los datos disponibles para generar una estimación numérica. Ninguno de estos ejercicios demuestra causalidad entre una intervención y la reducción de casos.
 
-> **Nota sobre los datos:** las cifras anteriores corresponden al material del examen parcial. No han sido contrastadas de forma independiente con una serie oficial comparable.
+> **Procedencia de los datos:** los valores de 2023–2025 utilizados en el CSV y en los notebooks se tomaron de la infografía proporcionada para el Caso B [1]. La cifra de 2026 es una **predicción calculada por el modelo**, no un dato de la infografía. No se ha realizado una validación independiente contra una serie estadística oficial equivalente.
 
 [Ver desarrollo completo del caso](./docs/presentacion-caso.md)
 
@@ -118,7 +118,7 @@ El material del caso también indica **113 muertes por neumonía en 2023** y **5
 
 ```mermaid
 flowchart LR
-    A["Caso B: IRA infantil"] --> B["Datos del examen"]
+    A["Caso B: IRA infantil"] --> B["Datos de la infografía"]
     B --> C{"Dos pipelines"}
     C --> D["IA: espacio de estados"]
     D --> E["Búsqueda BFS"]
@@ -192,7 +192,7 @@ El espacio de estados es una **simplificación académica del problema**, no un 
 
 <br>
 
-Se utilizó **búsqueda en anchura (BFS)** sobre un grafo, implementada en Python con `deque`, para explorar rutas desde el estado inicial hasta el objetivo [2].
+Se utilizó **búsqueda en anchura (BFS)** sobre un grafo, implementada en Python con `deque`, para explorar rutas desde el estado inicial hasta el objetivo [3].
 
 ### Proceso de búsqueda
 
@@ -231,12 +231,12 @@ La primera ruta encontrada pasa por **E1 (mayor vacunación)** debido al orden d
 
 <br>
 
-Se eligió una **tarea de regresión** y el modelo **`LinearRegression` de scikit-learn** [3]. Su uso permite analizar una tendencia lineal simple y realizar una estimación a partir de los tres datos del caso.
+Se eligió una **tarea de regresión** y el modelo **`LinearRegression` de scikit-learn** [4]. Su uso permite estudiar una tendencia lineal simple a partir de los tres registros anuales extraídos de la infografía [1].
 
 | Elemento | Descripción |
 |---|---|
-| **Entrada (`X`)** | Años: 2023, 2024 y 2025 |
-| **Salida (`y`)** | Episodios de IRA de cada año |
+| **Entrada (`X`)** | Años: 2023, 2024 y 2025 (infografía) |
+| **Salida (`y`)** | Episodios de IRA por año (infografía) |
 | **Modelo** | Regresión lineal |
 | **Entrenamiento** | `modelo.fit(X, y)` |
 | **Predicción** | `modelo.predict([[2026]])` |
@@ -260,7 +260,7 @@ prediccion = modelo.predict([[2026]])[0]
 
 </div>
 
-Este valor es una **estimación académica**, no un registro real de 2026. El modelo se entrenó con **solo tres observaciones anuales**, sin separación de prueba ni validación epidemiológica; por ello, la cifra no debe interpretarse como un pronóstico clínico validado.
+Este valor es una **estimación académica**, no un dato de la infografía ni un registro real de 2026. El modelo se entrenó con **solo tres observaciones anuales**, sin separación de prueba ni validación epidemiológica; por ello, la cifra no debe interpretarse como un pronóstico clínico validado.
 
 <div align="center">
 
@@ -273,63 +273,61 @@ Este valor es una **estimación académica**, no un registro real de 2026. El mo
 <br>
 </details>
 
--- 
+---
 
-## 05 · Mejoras y optimización de los pipelines
+<details>
+<summary><h2>05 · Mejoras y optimización de los pipelines</h2></summary>
 
-Como parte del desarrollo del Challenge 1, se realizaron mejoras en los códigos iniciales de los Bloques 1 y 2. El objetivo fue organizar mejor los procedimientos, facilitar la comprensión de los algoritmos y presentar los resultados de manera más clara.
+<br>
 
-Las versiones mejoradas se encuentran en la carpeta `notebooks/` del repositorio.
+Los notebooks publicados en `notebooks/` son versiones mejoradas de los ejercicios iniciales. Los cambios se enfocaron en la **organización del pipeline, la claridad de los resultados y la eliminación de una operación innecesaria**, sin cambiar el problema resuelto ni los resultados obtenidos.
 
-### Bloque 1: Optimización del razonamiento y búsqueda BFS
+### Bloque 1 · Razonamiento y búsqueda BFS
 
-En la primera versión se implementó el algoritmo BFS utilizando una cola `deque` para encontrar una ruta desde el estado inicial hasta el objetivo.
+**Versión inicial:** la función `buscar_ruta()` retornaba únicamente la ruta encontrada, mientras la descripción de los estados y la ejecución estaban distribuidas en varias celdas.
 
-**Mejoras realizadas:**
+**Versión mejorada:**
 
-- Se reorganizó el código en etapas de razonamiento, búsqueda y resultados.
-- Se estandarizó el nombre del estado final como `OBJETIVO`.
-- Se modificó la función `buscar_ruta()` para devolver tanto la ruta encontrada como los estados visitados.
-- Se incorporó la visualización del orden de exploración del algoritmo BFS.
-- Se agregó una validación para mostrar un mensaje cuando no existe una ruta.
-- Se mejoraron los comentarios y la explicación de los estados, operadores y restricciones.
+- Se organizó el desarrollo en tres etapas: razonamiento, búsqueda y resultados.
+- Se unificó el nombre del estado final como `OBJETIVO`.
+- La función retorna tanto la **ruta** como la lista de **estados visitados**.
+- Se agregó una salida para mostrar la exploración BFS y una comprobación para el caso en que no se encuentre una ruta.
+- Se mejoraron los nombres descriptivos, los comentarios y la explicación de la ruta.
 
-**Resultado:** Se conserva la ruta `E0 → E1 → E4 → E5 → OBJETIVO`, pero ahora se puede observar el proceso de exploración y comprender mejor cómo el algoritmo obtiene la solución.
+**Resultado conservado:** `E0 → E1 → E4 → E5 → OBJETIVO`.
 
-### Bloque 2: Optimización del modelo predictivo
+> **Alcance de la mejora:** el algoritmo continúa usando una lista `visitados` y una cola `deque`. No se implementó un conjunto para impedir que se encolen estados repetidos; la mejora documentada aquí es de organización, trazabilidad y manejo de la salida.
 
-En la primera versión se implementó un modelo de regresión lineal utilizando `scikit-learn` para estimar los episodios de IRA en 2026.
+### Bloque 2 · Modelo predictivo y visualización
 
-**Mejoras realizadas:**
+**Versión inicial:** el modelo de regresión lineal entrenaba con los datos de 2023–2025, calculaba la estimación de 2026 y generaba un gráfico. Además, calculaba `predicciones = modelo.predict(X)` sin utilizar posteriormente esa variable.
 
-- Se eliminaron predicciones intermedias que se calculaban pero no se utilizaban.
-- Se organizó el código en etapas de datos, entrenamiento, predicción y visualización.
-- Se mejoró la representación gráfica diferenciando los datos históricos, la línea de regresión y la predicción para 2026.
-- Se incorporaron etiquetas y marcas para identificar claramente los años analizados.
-- Se agregaron explicaciones sobre la selección del modelo, el entrenamiento y sus limitaciones.
+**Versión mejorada:**
 
-**Resultado:** Se mantiene la estimación de aproximadamente **725 838 episodios de IRA para 2026**, con una visualización más clara y un código mejor documentado.
+- Se estructuró el procedimiento en datos, entrenamiento, predicción y gráfica.
+- Se eliminó la variable de predicciones intermedias que no se utilizaba.
+- Se añadieron mensajes de salida para identificar los datos y la finalización del entrenamiento.
+- Se mejoró la gráfica con marcas para 2023–2026, etiquetas legibles y un marcador diferenciado para la estimación de 2026.
+- Se agregó documentación sobre el significado y los límites de la predicción.
 
-### Comparación entre las versiones
+**Resultado conservado:** aproximadamente **725 838 episodios de IRA para 2026**.
 
-| Aspecto | Primera versión | Versión mejorada |
+### Comparación de versiones
+
+| Aspecto | Versión inicial | Versión mejorada |
 |---|---|---|
-| Organización | Código dividido en celdas básicas | Pipeline organizado por etapas |
-| BFS | Devuelve la ruta encontrada | Devuelve la ruta y los estados visitados |
-| Exploración | Sin salida específica del orden de exploración | Muestra la exploración BFS |
-| Manejo de resultados | Presentación básica | Validación y explicación de resultados |
-| Regresión lineal | Incluye un cálculo intermedio sin utilizar | Elimina ese cálculo innecesario |
-| Visualización | Gráfico básico | Gráfico con etiquetas y marcadores mejorados |
-| Documentación | Comentarios breves | Explicaciones técnicas e interpretación |
+| Organización del BFS | Secuencia básica de celdas | Etapas de razonamiento, búsqueda y resultados |
+| Salida de BFS | Devuelve la ruta | Devuelve ruta y estados visitados |
+| Exploración BFS | No se mostraba por separado | Se muestra el orden de estados visitados |
+| Manejo de ausencia de ruta | No había una salida explicativa específica | Muestra un mensaje cuando no se encuentra una ruta |
+| Cálculos del modelo | Predicción intermedia sin uso | Se elimina esa operación |
+| Gráfico | Presentación básica de datos y recta | Etiquetas, marcas anuales y predicción diferenciada |
+| Resultado numérico | ≈ 725 838 episodios para 2026 | ≈ 725 838 episodios para 2026 |
 
-### Conclusión de las mejoras
+**Conclusión:** las mejoras hacen más claro y fácil de revisar el desarrollo, y eliminan un cálculo redundante en el modelo predictivo. **No se afirma que el código sea más rápido**, ya que no se realizaron mediciones de rendimiento comparativas.
 
-Las modificaciones representan principalmente una optimización de la estructura, la trazabilidad y la presentación de los resultados. También se eliminó un cálculo innecesario en el modelo predictivo.
-
-Se mantuvieron los algoritmos principales y los resultados originales, facilitando la comprensión, revisión y reproducción del trabajo.
-
-Estas mejoras no representan una demostración de mayor velocidad de ejecución, sino una implementación más organizada y documentada de los pipelines de Inteligencia Artificial y Machine Learning.
-
+<br>
+</details>
 
 ---
 
@@ -454,13 +452,15 @@ Challenge_IRA_INTELLIGENCE/
 
 Las referencias se presentan en **formato IEEE**:
 
-[1] Centro Nacional de Epidemiología, Prevención y Control de Enfermedades, “Vigilancia de EDA/IRA/SGB (UTVEIS)”. [En línea]. Disponible: https://www.dge.gob.pe/portalnuevo/vigilancia-epidemiologica/vigilancia-de-eda-ira-sgb-utveis/
+[1] Infografía sobre infecciones respiratorias agudas (Caso B), material visual proporcionado para el curso Machine Learning, Universidad Peruana Cayetano Heredia, 2026. [Material de clase; autor y título formal no especificados].
 
-[2] Python Software Foundation, “collections — Container datatypes”. [En línea]. Disponible: https://docs.python.org/3/library/collections.html#collections.deque
+[2] Centro Nacional de Epidemiología, Prevención y Control de Enfermedades, “Vigilancia de EDA/IRA/SGB (UTVEIS)”. [En línea]. Disponible: https://www.dge.gob.pe/portalnuevo/vigilancia-epidemiologica/vigilancia-de-eda-ira-sgb-utveis/
 
-[3] Scikit-learn Developers, “LinearRegression”. [En línea]. Disponible: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
+[3] Python Software Foundation, “collections — Container datatypes”. [En línea]. Disponible: https://docs.python.org/3/library/collections.html#collections.deque
 
-**Fuente principal de las cifras:** material del examen parcial del curso Machine Learning, **Caso B**. Las referencias externas proporcionan contexto y documentación técnica, pero no validan automáticamente esas cifras.
+[4] Scikit-learn Developers, “LinearRegression”. [En línea]. Disponible: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
+
+**Sobre la fuente de datos:** [1] se utiliza como fuente primaria del caso y [2] como referencia institucional contextual. Las referencias [3] y [4] documentan las herramientas de Python. Ninguna de estas fuentes externas valida por sí sola las cifras transcritas de la infografía. La predicción para 2026 procede exclusivamente del modelo entrenado con los valores de 2023–2025.
 
 ---
 
