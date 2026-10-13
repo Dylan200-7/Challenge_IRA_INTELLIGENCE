@@ -273,6 +273,64 @@ Este valor es una **estimación académica**, no un registro real de 2026. El mo
 <br>
 </details>
 
+-- 
+
+## 05 · Mejoras y optimización de los pipelines
+
+Como parte del desarrollo del Challenge 1, se realizaron mejoras en los códigos iniciales de los Bloques 1 y 2. El objetivo fue organizar mejor los procedimientos, facilitar la comprensión de los algoritmos y presentar los resultados de manera más clara.
+
+Las versiones mejoradas se encuentran en la carpeta `notebooks/` del repositorio.
+
+### Bloque 1: Optimización del razonamiento y búsqueda BFS
+
+En la primera versión se implementó el algoritmo BFS utilizando una cola `deque` para encontrar una ruta desde el estado inicial hasta el objetivo.
+
+**Mejoras realizadas:**
+
+- Se reorganizó el código en etapas de razonamiento, búsqueda y resultados.
+- Se estandarizó el nombre del estado final como `OBJETIVO`.
+- Se modificó la función `buscar_ruta()` para devolver tanto la ruta encontrada como los estados visitados.
+- Se incorporó la visualización del orden de exploración del algoritmo BFS.
+- Se agregó una validación para mostrar un mensaje cuando no existe una ruta.
+- Se mejoraron los comentarios y la explicación de los estados, operadores y restricciones.
+
+**Resultado:** Se conserva la ruta `E0 → E1 → E4 → E5 → OBJETIVO`, pero ahora se puede observar el proceso de exploración y comprender mejor cómo el algoritmo obtiene la solución.
+
+### Bloque 2: Optimización del modelo predictivo
+
+En la primera versión se implementó un modelo de regresión lineal utilizando `scikit-learn` para estimar los episodios de IRA en 2026.
+
+**Mejoras realizadas:**
+
+- Se eliminaron predicciones intermedias que se calculaban pero no se utilizaban.
+- Se organizó el código en etapas de datos, entrenamiento, predicción y visualización.
+- Se mejoró la representación gráfica diferenciando los datos históricos, la línea de regresión y la predicción para 2026.
+- Se incorporaron etiquetas y marcas para identificar claramente los años analizados.
+- Se agregaron explicaciones sobre la selección del modelo, el entrenamiento y sus limitaciones.
+
+**Resultado:** Se mantiene la estimación de aproximadamente **725 838 episodios de IRA para 2026**, con una visualización más clara y un código mejor documentado.
+
+### Comparación entre las versiones
+
+| Aspecto | Primera versión | Versión mejorada |
+|---|---|---|
+| Organización | Código dividido en celdas básicas | Pipeline organizado por etapas |
+| BFS | Devuelve la ruta encontrada | Devuelve la ruta y los estados visitados |
+| Exploración | Sin salida específica del orden de exploración | Muestra la exploración BFS |
+| Manejo de resultados | Presentación básica | Validación y explicación de resultados |
+| Regresión lineal | Incluye un cálculo intermedio sin utilizar | Elimina ese cálculo innecesario |
+| Visualización | Gráfico básico | Gráfico con etiquetas y marcadores mejorados |
+| Documentación | Comentarios breves | Explicaciones técnicas e interpretación |
+
+### Conclusión de las mejoras
+
+Las modificaciones representan principalmente una optimización de la estructura, la trazabilidad y la presentación de los resultados. También se eliminó un cálculo innecesario en el modelo predictivo.
+
+Se mantuvieron los algoritmos principales y los resultados originales, facilitando la comprensión, revisión y reproducción del trabajo.
+
+Estas mejoras no representan una demostración de mayor velocidad de ejecución, sino una implementación más organizada y documentada de los pipelines de Inteligencia Artificial y Machine Learning.
+
+
 ---
 
 ## Tecnologías involucradas
